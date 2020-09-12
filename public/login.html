@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <link rel="stylesheet" href="css/comm.css" />
+    <link rel="stylesheet" href="css/login.css" />
+  </head>
+  <body style="background-color: #f5f3f4">
+    <div class="login">
+      <!-- <button onclick="clearlocalStorage()">删除所有的sessionStorage</button>
+      <script>
+        function clearlocalStorage() {
+          localStorage.clear(); //清空所有的sessionStorage
+          console.log(sessionStorage.length + "local" + localStorage.length);
+        }
+      </script> -->
+      <img src="./img/88.jpg" width="960" height="100" alt="" usemap="#Map" />
+      <map name="Map" id="Map">
+        <area
+          shape="rect"
+          coords="0,5,184,96"
+          href="/index.html"
+          target="_blank"
+          alt=""
+        />
+        <area
+          shape="rect"
+          coords="654,19,956,93"
+          href="/index.html"
+          target="_blank"
+          alt=""
+        />
+      </map>
+      <div class="login_cont">
+        <div class="login_why">
+          <a href="" target="_blank">
+            <img src="./img/370.jpg" width="370" height="280" alt="" />
+          </a>
+        </div>
+        <div class="user_2012_register">
+          <img src="./img/dl_01.jpg" alt="" />
+          <ul style="margin-top: 10px; list-style: none">
+            <li class="password">
+              <span>会员名称</span>
+              <input
+                style="color: #b2adaa"
+                placeholder="可使用邮箱/手机/昵称进行登录"
+                type="text"
+                id="user_name"
+              /><span id="sp1"></span>
+            </li>
+            <li class="password">
+              <span>登录密码</span>
+              <input
+                style="color: #b2adaa"
+                type="password"
+                id="user_password"
+              /><span id="sp2"></span>
+            </li>
+            <li
+              style="padding-left: 70px; padding-top: 5px; padding-bottom: 5px"
+            >
+              <input
+                type="checkbox"
+                value="1"
+                id="autologin"
+                name="remember"
+                id=""
+                style="font-size: 12px; vertical-align: middle"
+              />
+              <span>自动登录</span>&nbsp;&nbsp;
+              <a href="#">忘记密码？</a>&nbsp;|&nbsp;
+              <a href="" style="color: #f00">免费注册</a>
+            </li>
+            <li class="user_2012_register_xz">
+              <a
+                href="#"
+                id="login_button"
+                style="
+                  background-color: rgb(209, 9, 2);
+                  border-radius: 3px;
+                  box-sizing: border-box;
+                  padding: 8px 100px;
+                  color: #fff;
+                  font-size: 16px;
+                "
+              >
+                登录
+                <!-- <input type="image" src="./img/ljdl.jpg" alt="立即登录"   > -->
+              </a>
+            </li>
+            <li class="user_2012_register_bd">
+              <span style="margin-top: 10px">其他方式</span>
+              <div
+                style="
+                  float: left;
+                  width: 120px;
+                  height: auto;
+                  margin-top: 10px;
+                "
+              >
+                <a href=""
+                  ><img src="./img/wb.png" width="100" height="30" alt="" /></a
+                ><br />
+                <a href=""
+                  ><img
+                    style="margin-top: 5px"
+                    src="./img/qq.png"
+                    width="100"
+                    height="30"
+                    alt=""
+                /></a>
+              </div>
+              <div
+                style="
+                  width: 120px;
+                  height: auto;
+                  float: left;
+                  margin-left: 20px;
+                "
+              >
+                <img src="./img/app.jpg" alt="" width="100" />
+              </div>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <img src="./img/99.jpg" alt="" width="960" height="50" usemap="#Map2" />
+    </div>
+    <script>
+      //会员名验证
+      user_name.onblur = () => {
+        var uname = user_name.value;
+        //校验用户名,用户名的规则为:字母、数字及下划线的组合,长度为6~12个字符
+        let usernameRegExp = /^[0-9A-Za-z_]{6,12}$/;
+        if (usernameRegExp.test(uname)) {
+          sp1.innerText = "√";
+        } else {
+          sp1.innerText = "×";
+        }
+      };
+      //密码验证
+      user_password.onblur = function () {
+        var upwd = user_password.value;
+        //校验密码,密码的规则为:字母、数字及下划线的组合,长度为8~20个字符
+        let passwordRegExp = /^[0-9A-Za-z_]{8,20}$/;
+        if (passwordRegExp.test(upwd)) {
+          sp2.innerText = "√";
+        } else {
+          sp2.innerText = "×";
+        }
+      };
+      login_button.onclick = function () {
+        var uname = user_name.value;
+        var upwd = user_password.value;
+        //小黄人四部曲
+        //1.创建异步对象
+        let xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = () => {
+          if (xhr.readyState == 4 && xhr.status == 200) {
+            let data = xhr.responseText;
+            let code = JSON.parse(data).code;
+            console.log(code);
+            if (code == 1) {
+              window.alert("登陆成功");
+              window.location.href = "/index.html";
+              localStorage.setItem("login", uname);
+            } else {
+              window.alert("登陆失败");
+            }
+          }
+        };
+        xhr.open("post", "/login", true);
+        let formData = `uname=${uname}&&upwd=${upwd}`;
+        xhr.setRequestHeader(
+          "Content-Type",
+          "application/x-www-form-urlencoded"
+        );
+        xhr.send(formData);
+        console.log(formData);
+      };
+    </script>
+  </body>
+</html>
